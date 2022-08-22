@@ -23,4 +23,4 @@ Figures were printed to pdfs using the export_fig matlab package. This can be
 downloaded at https://uk.mathworks.com/matlabcentral/fileexchange/23629-export_fig
 
 ## Citation <a name="cite"></a>
-Feel free to use the code within this repo in your work. If you do please consider citing our [paper](https://arxiv.org/abs/2208.00251)
+Feel free to use the code within this repo in your work. If you do please consider citing our [paper](https://arxiv.org/abs/2208.00251).
