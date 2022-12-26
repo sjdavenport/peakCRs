@@ -1,15 +1,13 @@
 function [ asym, montecarlo ] = CRuncertainty( out, nsubj, quantile, do_bonf )
-% NEWFUN serves as a function template.
+% CRuncertainty( out, nsubj, quantile, do_bonf )
 %--------------------------------------------------------------------------
 % ARGUMENTS
 % Mandatory
+%  out    the output from convCR or convCR_t
+%  nsubj  the number of subjects
+%  quantile   the desired quantile
 % Optional
-%--------------------------------------------------------------------------
-% OUTPUT
-% 
-%--------------------------------------------------------------------------
-% EXAMPLES
-% 
+%  do_bonf    0/1 whether to apply a bonferroni correction
 %--------------------------------------------------------------------------
 % AUTHOR: Samuel Davenport
 %--------------------------------------------------------------------------

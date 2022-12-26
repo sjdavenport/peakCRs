@@ -1,3 +1,6 @@
+%% This illustrates how the fMRI analysis was done 
+% (data not available to share unfortnately)
+
 %%
 MNImask = imgload('MNImask');
 bounds = mask_bounds( MNImask );

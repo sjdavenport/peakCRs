@@ -1,17 +1,13 @@
 function [ ellval_store, maxlochist, coverage, bonf_coverage, Lambda_mate, peakderiv2mate,...
     cltSigmasmate] = convCIcoverage( data_info, niters, field_type, sim_type )
-% NEWFUN serves as a function template.
+% convCIcoverage
 %--------------------------------------------------------------------------
 % ARGUMENTS
 % Mandatory
-%
-% Optional
-%--------------------------------------------------------------------------
-% OUTPUT
-%
-%--------------------------------------------------------------------------
-% EXAMPLES
-%
+%  data_info   a data descriptor variable  
+%  niters      the number of iterations
+%  field_type  the type of field to simulate
+%  sim_type    the type of simulation to run
 %--------------------------------------------------------------------------
 % AUTHOR: Samuel Davenport
 %--------------------------------------------------------------------------
@@ -134,9 +130,9 @@ for L = 1:niters
     
     if strcmp(field_type, 'm')
 %         out = convCR(noise, FWHM, meanfn, meanonfinelat.field, peak_est_locs, data_info.Sig);
-        out = convCR(noise, FWHM, meanfn, peak_est_locs);
+        out = convCR(noise, FWHM, peak_est_locs, meanfn);
     else
-        out = convCR_t(noise, FWHM, meanfn, peak_est_locs );
+        out = convCR_t(noise, FWHM, peak_est_locs, meanfn);
     end
     
     %     lat_data = data_info.lat_signal' + data_info.lat_std*smooth_noise; % Need to make noisegen take and output a Field!

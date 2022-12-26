@@ -1,25 +1,21 @@
-function [distbn, distbn_nobounds, det_hessian, det_hessian_nobounds] = MFTD( peakderiv2, covmate, N, niters )
-% MFTD( peakderiv2, covmate, N, niters ) approximates the
-% distribution of the first term in the taylor distribution of the maximum.
-% ONLY STATIONARY ATM!!
+function [distbn, distbn_nobounds, det_hessian, det_hessian_nobounds] = ...
+                                    MFTD( peakderiv2, covmate, N, niters )
+% MFTD( peakderiv2, covmate, N, niters )
 %--------------------------------------------------------------------------
 % ARGUMENTS
 % Mandatory
 %  peakderiv2   a D by D matrix of the second derivative
-%  covmate
-%  N
-%  niters 
-% Optional
-%--------------------------------------------------------------------------
-% OUTPUT
-% 
+%  covmate      the covariance matrix of the first derivative and the
+%               hessian
+%  N            the number of subjects
+%  niters       the number of iterations
 %--------------------------------------------------------------------------
 % EXAMPLES
 % % 1D
 % Lambda = 0.0779; N = 100; mu = -0.1219; Omega = 0.0049*40;
 % Delta = Lambda/4; covmate = [Lambda, Delta; Delta, Omega];
-% distbn= MFTD( mu, covmate, N );
-% histogram(distbn); hold on; histogram(distbn_indep)
+% distbn = MFTD( mu, covmate, N );
+% histogram(distbn);
 % 
 % covmate = [ 0.0779, 0; 0, 0.0049*40]
 % N = 100; mu = -0.1219; samples = mu + normrnd(0,Omega,1,N);
@@ -30,13 +26,11 @@ function [distbn, distbn_nobounds, det_hessian, det_hessian_nobounds] = MFTD( pe
 % hold on
 % histogram(mftd_dist, 'BinWidth', orig_hist.BinWidth)
 % alpha = 0.05;
-% (1/2)*(prctile(a/mean(samples), 100*(1-alpha) ) - prctile(a/mean(samples), 100*(alpha) ))
 % (1/2)*(prctile(mftd_dist, 100*(1-alpha) ) - prctile(mftd_dist, 100*(alpha) ))
 %
-% % 
 % Lambda = eye(2)*0.0779; mu = -0.1219; Omega = eye(3)*0.0049*40;
 % Delta = zeros(2,3); covmate = [Lambda, Delta; Delta', Omega];
-% MFTD( eye(2), covmate, N, niters )
+% MFTD( eye(2), covmate, N );
 %--------------------------------------------------------------------------
 % AUTHOR: Samuel Davenport
 %--------------------------------------------------------------------------

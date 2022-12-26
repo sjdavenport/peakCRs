@@ -1,14 +1,20 @@
 function [ out, tcf ] = convCR_t(lat_data, FWHM, meanfn, peak_est_locs )
-% TFIELDCI(lat_data, xvals_vecs, Kernel, peak_est_locs, mask)
+% CONVCR_t(lat_data, FWHM, meanfn, peak_est_locs )
 %--------------------------------------------------------------------------
 % ARGUMENTS
-% 
-%--------------------------------------------------------------------------
-% OUTPUT
-% 
+% Mandatory
+%   lat_data    unsmoothed noise
+%   FWHM        the smoothing applied to the data
+%   meanfn      the mean function: for inference in practice this should be
+%               @(x)0 but it may be useful to set this to be non-zero for
+%               the purpose of simulations
+%   peak_est_locs  a cell array containing the initial estimates of the peak locations
 %--------------------------------------------------------------------------
 % EXAMPLES
-% 
+% nvox = 10; nsubj = 100; lat_data = wfield([nvox,1], nsubj)
+% peak_centre = 5; peakspec = {[3,7]}; peakparams = {[2,2]};
+% [~, meanfn] = peakgen1D( 1:0.1:nvox, peakspec, peakparams, 1, 0.01);
+% FWHM = 2; out = convCR_t(lat_data, FWHM, meanfn, {5});
 %--------------------------------------------------------------------------
 % AUTHOR: Samuel Davenport
 %--------------------------------------------------------------------------
@@ -102,7 +108,7 @@ out.sigma2deriv = (sigma2plush - out.sigma2)/h; %Note better to look at the deri
 
 out.Lambda = cell(1, out.npeaks);
 out.Gamma = cell(1, out.npeaks);
-out.CDderiv2 = cell(1, out.npeaks);
+% out.CDderiv2 = cell(1, out.npeaks);
 out.derivvar = cell(1, out.npeaks);
 out.cltSigmas = cell(1, out.npeaks);
 

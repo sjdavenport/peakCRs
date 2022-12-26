@@ -1,3 +1,6 @@
+%% This illustrates how the fMRI analysis was done 
+% (data not available to share unfortnately)
+
 contour_image_loc = '/vols/Scratch/ukbiobank/nichols/ContourInf/MNI/';
 
 MNImask = imgload('MNImask');
@@ -82,7 +85,7 @@ out.cltSigmas{index}/sqrt(nsubj)
 FWHM = 2;
 load([PIloc, 'UKBanalysis/fMRI_application/lat_mean_nsubj_',num2str(nsubj),'.mat'], 'lat_data_mean')
 load([PIloc, 'UKBanalysis/fMRI_application/CIout_nsubj_',num2str(nsubj),'.mat'], 'out')
-resadd = 11;
+resadd = 1;
 params = ConvFieldParams([FWHM,FWHM], resadd, 0);
 lat_data_mean_field = Field(lat_data_mean, logical(mask_2D));
 smooth_mean = convfield(lat_data_mean_field, params);

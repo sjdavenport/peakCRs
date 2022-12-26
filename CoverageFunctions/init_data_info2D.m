@@ -23,12 +23,6 @@ function data_info = init_data_info2D( FWHM, nsubj, Rad, Smo, Dim, centre_locs, 
 %               a length D vector giving the coordinates of the centre location
 %               of the nth peak.
 %--------------------------------------------------------------------------
-% OUTPUT
-% 
-%--------------------------------------------------------------------------
-% EXAMPLES
-% 
-%--------------------------------------------------------------------------
 % AUTHOR: Samuel Davenport
 %--------------------------------------------------------------------------
 

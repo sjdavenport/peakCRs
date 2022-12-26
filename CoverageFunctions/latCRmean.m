@@ -1,20 +1,36 @@
-function out = latCRmean(data, top, use_stat_Lambda)
+function out = latconvCRmean(data, top, use_stat_Lambda)
 % latCR(data, top) finds confidence intervals for the location of
 % maxima of the mean of data on a lattice
 % -------------------------------------------------------------------------
 % ARGUMENTS
 % data    an object of class field.
 % top     the number of peaks to find CRs at.
+% use_stat_Lambda - optional boolean flag indicating whether to use a
+%         stationary estimate of Lambda (i.e. estimated using all the data 
+%         rather than the data at a point or not). Default is to use the
+%         data at the point.
 %--------------------------------------------------------------------------
 % OUTPUT
-% out
+%   out - structure containing the following fields:
+%         max_locs - matrix of location of maxima of the mean of data
+%         MFTD - the monte carlo distribution of the locations of the local maxima
+%         peakderiv2 - matrix of second derivatives of the mean at the maxima
+%         npeaks - number of peaks
+%         peakvar - variance of the peak values
+%         Lambda - cell array containing matrices of Lambda at the different peaks
+%         Omega - cell array containing matrices of Omega at the different peaks
+%         CR_lower - lower bounds of the confidence regions
+%         CR_upper - upper bounds of the confidence regions
+%         CR_volume - volume of the confidence regions
 %--------------------------------------------------------------------------
 % EXAMPLES
+% % Compare to convCR
 % lat_data = wfield([100,1], 100); 
 % FWHM = 3; resadd = 21; params = ConvFieldParams(FWHM, resadd, 0);
 % smooth_field = convfield(lat_data, params)
-% out = latCRmean(smooth_field,2)
-% out2 = convfieldCI_gen(lat_data.field, lat_data.xvals, FWHM)
+% out_latCR = latCRmean(smooth_field,1)
+% peak_est_locs = {spacep_inv(lmindices(mean(smooth_field.field, 2), 1), resadd)};
+% out_convCR = convCR(lat_data, FWHM, peak_est_locs)
 % 
 % % Stationary estimate of Lambda
 % lat_data = wfield([100,1], 100); 
@@ -22,9 +38,9 @@ function out = latCRmean(data, top, use_stat_Lambda)
 % smooth_field = convfield(lat_data, params)
 % cutoff = ceil(4*FWHM2sigma(FWHM))*(resadd+1)
 % cf = cut_field(smooth_field, cutoff);
-% out = latCRmean(cf)
-% out2 = latCRmean(cf, 1, 1)
-%
+% out = latconvCRmean(cf)
+% out2 = latconvCRmean(cf, 1, 1)
+% 
 % increm = 0.001; smo = 5;
 % peakspec = {[10,14], [21.5,26.5], [35,39]}; peakparams = {[1.5,2], [2,2], [2,1.5]};
 % npeaks = length(peakspec);

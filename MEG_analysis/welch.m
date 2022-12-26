@@ -1,21 +1,13 @@
 function [ power_spectrum, ps_fields, real_fft_fields, imag_fft_fields ] = ...
     welch( time_series, segment_length, sample_freq, resadd, scale )
-% WELCH() implements Welch's method on a time series
+% WELCH implements Welch's method on a time series
 %--------------------------------------------------------------------------
 % ARGUMENTS
 % Mandatory
-% time_series
-% segment_length
-% sample_freq
-% resadd
-% scale 
-% Optional
-%--------------------------------------------------------------------------
-% OUTPUT
-%
-%--------------------------------------------------------------------------
-% EXAMPLES
-%
+%  time_series     the time series data 
+%  segment_length  the length of a given segment
+%  sample_freq     the frequency to use
+%  resadd          the resolution
 %--------------------------------------------------------------------------
 % AUTHOR: Samuel Davenport
 %--------------------------------------------------------------------------

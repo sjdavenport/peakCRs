@@ -5,15 +5,34 @@ function out = latCRmeanND(data, top, use_stat_Lambda)
 % ARGUMENTS
 % data    an object of class field.
 % top     the number of peaks to find CRs at.
+% use_stat_Lambda - optional boolean flag indicating whether to use a
+%         stationary estimate of Lambda (i.e. estimated using all the data 
+%         rather than the data at a point or not). Default is to use the
+%         data at the point.
 %--------------------------------------------------------------------------
 % OUTPUT
-% out
+%   out - structure containing the following fields:
+%         max_locs - matrix of location of maxima of the mean of data
+%         MFTD - the monte carlo distribution of the locations of the local maxima
+%         peakderiv2 - matrix of second derivatives of the mean at the maxima
+%         npeaks - number of peaks
+%         peakvar - variance of the peak values
+%         Lambda - cell array containing matrices of Lambda at the different peaks
+%         Omega - cell array containing matrices of Omega at the different peaks
+%         CR_lower - lower bounds of the confidence regions
+%         CR_upper - upper bounds of the confidence regions
+%         CR_volume - volume of the confidence regions
 %--------------------------------------------------------------------------
 % EXAMPLES
-% lat_data = wfield([30,30],40);
-% FWHM = 3; resadd = 11; params = ConvFieldParams([FWHM,FWHM], resadd, 0);
+% % Compare to convCR to ensure they have the same coverage
+% lat_data = wfield([20,20], 50); 
+% FWHM = 6; resadd = 7; params = ConvFieldParams([FWHM,FWHM], resadd, 0);
 % smooth_field = convfield(lat_data, params)
-% out = latCRmeanND(smooth_field,1)
+% out_latCR = latCRmeanND(smooth_field,1);
+% peak_est_locs = {spacep_inv(lmindices(mean(smooth_field.field, 3), 1), resadd)};
+% out_convCR = convCR(lat_data, FWHM, peak_est_locs);
+% out_latCR.cltSigmas{1}
+% out_convCR.cltSigmas{1}
 %--------------------------------------------------------------------------
 % AUTHOR: Samuel Davenport
 %--------------------------------------------------------------------------
@@ -107,6 +126,9 @@ end
 
 out.cltSigmas = cell(1, out.npeaks);
 out.muhessianinv = cell(1, out.npeaks);
+out.dist95 = cell(1,out.npeaks);
+out.asym95 = cell(1,out.npeaks);
+alpha_quants = 0.05;
 
 for I = 1:out.npeaks
     out.muhessianinv{I} = inv(out.peakderiv2(:,:,I));
@@ -119,7 +141,11 @@ for I = 1:out.npeaks
         Delta = out.Delta{I};
     end
     covmate = [out.Lambda{I}, Delta; Delta', out.Omega{I}];
-    out.MFTD{I} = MFTD( out.peakderiv2(:,:,I), covmate, nsubj );      
+    out.MFTD{I} = MFTD( out.peakderiv2(:,:,I), covmate, nsubj );    
+    upper95asym = 1.96*sqrt(out.cltSigmas{I})/sqrt(nsubj);
+    genpluspeak = out.max_locs(I) + out.MFTD{I}; 
+    out.dist95{I} = [prctile(genpluspeak, 100*alpha_quants/2), prctile(genpluspeak, 100*(1-alpha_quants/2))];
+    out.asym95{I} = [out.max_locs(I) - upper95asym, out.max_locs(I) + upper95asym];
 end
 
 end

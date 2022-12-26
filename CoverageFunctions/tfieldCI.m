@@ -10,7 +10,7 @@ function [ out, tcf ] = tfieldCI(lat_data, xvals_vecs, Kernel, peak_est_locs, ma
 % EXAMPLES
 % 
 %--------------------------------------------------------------------------
-% AUTHOR: Samuel Davenport
+% AUTHOR: Samuel Davenport don't include
 %--------------------------------------------------------------------------
 
 if nargin < 4

@@ -1,19 +1,40 @@
-function out = convCR(lat_data, FWHM, meanfn, peak_est_locs, use_stat_Lambda)
-% CONVCR(lat_data, params, mean_function, top)
-% finds confidence intervals for the location of maxima of the mean of a
+function out = convCR(lat_data, FWHM, peak_est_locs, meanfn, use_stat_Lambda)
+% CONVCR(lat_data, FWHM, meanfn, peak_est_locs, use_stat_Lambda) finds 
+% confidence intervals for the location of maxima of the mean of a
 % convolution field
 % -------------------------------------------------------------------------
 % ARGUMENTS
-% lat_data     unsmoothed noise
-% FWHM
-% meanfn
-% top
-%--------------------------------------------------------------------------
-% OUTPUT
-% out.
+% Mandatory
+%   lat_data    unsmoothed noise
+%   FWHM        the smoothing applied to the data
+%   meanfn      the mean function: for inference in practice this should be
+%               @(x)0 but it may be useful to set this to be non-zero for
+%               the purpose of simulations
+%   peak_est_locs  a cell array containing the initial estimates of the peak locations
+% Optional
+%   use_stat_Lambda   0/1, whether to use the estimate of Lambda from all
+%                     across the image or not
 %--------------------------------------------------------------------------
 % EXAMPLES
+% % 1D example 
 %
+% % 1D example (with known mean)
+% nvox = 10; nsubj = 100; lat_data = wfield([nvox,1], nsubj)
+% peak_centre = 5; peakspec = {[3,7]}; peakparams = {[2,2]};
+% [~, meanfn] = peakgen1D( 1:0.1:nvox, peakspec, peakparams, 1, 0.01);
+% FWHM = 2; out = convCR(lat_data, FWHM, {5}, meanfn);
+% mask = zeros(nvox,1); mask(4) = 1; mask(5) = 1; mask(6) = 1;
+% 
+% % 2D example
+% nsubj = 50; dim = [30,30];
+% lat_data = wfield(dim, nsubj);
+% unsmooth_sig = peakgen(0.25, 1, 4, dim);
+% lat_data.field = lat_data.field + unsmooth_sig;
+% FWHM = 2; out = convCR(lat_data, FWHM, {[15,15]'})
+% subplot(2,2,1); surf(mean(lat_data).field)
+% subplot(2,2,2); surf(mean(convfield(lat_data, 2)).field)
+% subplot(2,2,3); surf(mean(convfield(lat_data, 4)).field)
+% subplot(2,2,4); surf(mean(convfield(lat_data, 6)).field)
 %--------------------------------------------------------------------------
 % AUTHOR: Samuel Davenport
 %--------------------------------------------------------------------------
@@ -22,9 +43,8 @@ function out = convCR(lat_data, FWHM, meanfn, peak_est_locs, use_stat_Lambda)
 D = lat_data.D;
 nsubj = lat_data.fibersize;
 
-% Default the number of peaks to find to 1 (for now!)
-if ~exist('top', 'var')
-    top = 1;
+if ~exist('meanfn', 'var')
+   meanfn = @(x) 0;
 end
 
 if ~exist('use_stat_Lambda', 'var')
@@ -60,8 +80,7 @@ for I = 1:out.npeaks
     lowerbounds{I} = peak_est_locs{I} - 6;
     upperbounds{I} = peak_est_locs{I} + 6;
 end
-peak_est_locs = cell2mat(peak_est_locs);
-out.max_locs = findlms( fneval, peak_est_locs, lowerbounds, upperbounds );
+out.max_locs = findlms( fneval, peak_est_locs{I}, lowerbounds{I}, upperbounds{I} );
 % fcp = findconvpeaks(pre_smoothed_noise_mean, FWHM, peak_est_locs, 'Z', ceil(8*FWHM2sigma(FWHM)), 0, 1, meanfn, meanonlat)
 % findlms( fneval, top, top - , upperbounds, algorithm )
 % resadd = 51;

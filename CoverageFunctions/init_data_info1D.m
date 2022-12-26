@@ -3,19 +3,18 @@ function data_info = init_data_info1D( FWHM, nsubj, x, peakspec, peakparams, pea
 % testing in 1D
 %--------------------------------------------------------------------------
 % ARGUMENTS
-% FWHM
-% nsubj
-% x
-% peakspec
-% peakparams
-% peakheights
-% smo
-%--------------------------------------------------------------------------
-% OUTPUT
-% 
-%--------------------------------------------------------------------------
-% EXAMPLES
-% 
+% Mandatory
+%  FWHM    the smoothness of the noise
+%  nsubj   the number of subjects
+%  x       the vector at which to evaluate the signal
+%  peakspec   a cell array each entry being a 2D vector with start and
+%             ending vertices for the peak to occur
+%  peakparams  a cell array each entry being a 2D vector specifying the
+%              peak parameters (used to generate the peak from the beta pdf)
+%  peakheights  a vector giving the height of each peak
+% Optional
+%  smo   the amount of additional smoothing to apply to the data  (not
+%        implemented yet!)
 %--------------------------------------------------------------------------
 % AUTHOR: Samuel Davenport
 %--------------------------------------------------------------------------

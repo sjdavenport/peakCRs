@@ -1,3 +1,6 @@
+%% This illustrates how the MEG analysis was done 
+% (data not available to share unfortnately)
+
 global where_davenpor
 prefft = load([where_davenpor,'Data/MEG/hcp_sails_aal_timeseries2.mat']);
 

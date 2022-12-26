@@ -1,12 +1,10 @@
-function [ out ] = latCRtstat(data, top, use_stat_Lambda)
+function [ out ] = latCRtstat(data, top)
 % LATCRTSTAT( data, top ) creates confidence regions for the location of
 % the maximum of Cohen's d.
 %--------------------------------------------------------------------------
 % ARGUMENTS
-% 
-%--------------------------------------------------------------------------
-% OUTPUT
-% 
+% data    an object of class field.
+% top     the number of peaks to find CRs at.
 %--------------------------------------------------------------------------
 % EXAMPLES
 % lat_data = wfield([100,1], 50); 
@@ -15,7 +13,7 @@ function [ out ] = latCRtstat(data, top, use_stat_Lambda)
 % out = latCRtstat(smooth_field)
 % out2 = tfieldCI(lat_data.field, lat_data.xvals, FWHM)
 %--------------------------------------------------------------------------
-% AUTHOR: Samuel Davenport
+% AUTHOR: Samuel Davenport Leave out out2
 %--------------------------------------------------------------------------
 
 %%  Check mandatory input and get important constants
